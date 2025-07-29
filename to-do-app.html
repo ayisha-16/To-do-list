@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do-app</title>
+    <style>
+        body{
+            background-color: aliceblue;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            margin: 0%;
+        }
+
+        .Contrainer1{
+            background-color: rgb(15, 85, 80);
+            height: 200px;
+            width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #140808;
+        }
+        table{
+            border-collapse: collapse;
+            border-color: rgb(21, 21, 21);
+             width: 500px;
+        }
+
+        .rowname{
+            padding-top: 50px;
+            display: flex;
+            justify-content: center;
+           
+
+        }
+        .btn{
+            background-color: rgb(244, 245, 250);
+            border-radius: 5px;
+        }
+        .btn:hover{
+            background-color: rgb(251, 107, 107);
+        }
+
+    </style>
+</head>
+<body>
+   <center>
+     <div class="Contrainer1">
+        <h1>To-Do-Application</h1>
+        <div id="container2">
+        <input type="text" id="task-1" placeholder="Task Name">
+        <select id="Priority">
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+        </select>
+        <input type="date" id="start-date">
+        <input type="date" id="end-date">
+        <button class="btn" onclick="add_fun()"> Add Task</button>
+        <!-- <button onclick=""></button> -->
+
+        </div>
+
+        <div class="rowname">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Task Name</th>
+                        <th>Start Date</th>
+                        <th>Due Date</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="Tablebody"></tbody>
+            </table>
+        </div>
+    </div>
+
+   </center>
+    <script>
+        function add_fun(){
+            const taskname = document.getElementById("task-1").value.trim();
+            const priority = document.getElementById("Priority").value
+            const startdate = document.getElementById("start-date").value
+            const endate = document.getElementById("end-date").value
+        
+
+        if (!taskname ||!startdate || !endate ){
+            alert("Please fill the required details")
+            return
+        }
+
+        const tablebody = document.getElementById("Table-body")
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+        <td><span>${taskname} </span> </td>
+        <td><input type="date" value="${startdate}" disabled></td>
+                <td><input type="date" value="${endate}" disabled></td>
+                <td>
+                    <select disabled>
+                        <option value="High" ${priority === 'High' ? 'selected' : ''}>High</option>
+                        <option value="Medium" ${priority === 'Medium' ? 'selected' : ''}>Medium</option>
+                        <option value="Low" ${priority === 'Low' ? 'selected' : ''}>Low</option>
+                    </select>
+                </td>
+                 <td>
+                    <select disabled>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </td>
+                <td class ="action">
+                    <button onclick="enableEdit(this)">Edit</button>
+                    <button onclick ="deletetMethod(this)">Delete </button>
+                </td>
+            `;
+                tablebody.appendChild(row);
+
+                document.getElementById('task-1').value = '';
+                document.getElementById('Priority').value = 'Medium';
+                document.getElementById('start-date').value = '';
+                document.getElementById('end-date').value = '';
+
+            }
+
+            function deletetMethod(btn){
+                const row = btn.parentNode.parentNode;
+                row.remove();
+            }
+
+            function enableEdit(btn){
+                const row = btn.parentNode.parentNode;
+                const span = row.querySelector('td span');
+                const startInput = row.cells[1].querySelector('input');
+                const dueInput = row.cells[2].querySelector('input');
+                const selects = row.querySelectorAll('td select');
+
+                if (btn.textContent === 'Edit') {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.value = span.textContent;
+                    span.replaceWith(input);
+
+                    startInput.disabled = false;
+                    dueInput.disabled = false;
+                    selects.forEach(select => select.disabled = false);
+                    btn.textContent = 'Save';
+                } else {
+                    const input = row.querySelector('td input[type="text"]');
+                    const newSpan = document.createElement('span');
+                    newSpan.textContent = input.value;
+                    input.replaceWith(newSpan);
+
+                    startInput.disabled = true;
+                    dueInput.disabled = true;
+                    selects.forEach(select => select.disabled = true);
+                    btn.textContent = 'Edit';
+                }
+            }
+        </script>
+</body>
+</html>
