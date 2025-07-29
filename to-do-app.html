@@ -6,9 +6,10 @@
     <title>To-Do-app</title>
     <style>
         body{
-            background-color: aliceblue;
+            background-color: rgb(138, 193, 193);
             font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             margin: 0%;
+            padding: 20px;
         }
 
         .Contrainer1{
@@ -21,10 +22,36 @@
             text-align: center;
             color: #140808;
         }
+
+        .container2{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .container2 input,
+        .container2 select,
+        .container2 button{
+             flex: 1 1 180px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            outline: none;
+            box-sizing: border-box;
+        }
         table{
+            width: 100%;
             border-collapse: collapse;
-            border-color: rgb(21, 21, 21);
-             width: 500px;
+            overflow-x: auto;
+        }
+
+        
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 14px;
         }
 
         .rowname{
@@ -41,6 +68,38 @@
         .btn:hover{
             background-color: rgb(251, 107, 107);
         }
+        .actions button {
+            margin: 0 2px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+
+            .form-row input,
+            .form-row select,
+            .form-row button {
+                width: 100%;
+            }
+
+            th, td {
+                font-size: 12px;
+            }                                                                                                                                                                                                                                                                                                                                                                       
+            
+        }
+
+        @media (max-width: 480px) {
+            th, td {
+                padding: 8px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
 
     </style>
 </head>
@@ -49,14 +108,14 @@
      <div class="Contrainer1">
         <h1>To-Do-Application</h1>
         <div id="container2">
-        <input type="text" id="task-1" placeholder="Task Name">
-        <select id="Priority">
+        <input type="text" id="taskname" placeholder="Task Name">
+        <select id="priority">
             <option value="high">High</option>
             <option value="medium">Medium</option>
             <option value="low">Low</option>
         </select>
-        <input type="date" id="start-date">
-        <input type="date" id="end-date">
+        <input type="date" id="startdate">
+        <input type="date" id="endate">
         <button class="btn" onclick="add_fun()"> Add Task</button>
         <!-- <button onclick=""></button> -->
 
@@ -74,7 +133,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="Tablebody"></tbody>
+                <tbody id="Tasktablebody"></tbody>
             </table>
         </div>
     </div>
@@ -82,10 +141,10 @@
    </center>
     <script>
         function add_fun(){
-            const taskname = document.getElementById("task-1").value.trim();
-            const priority = document.getElementById("Priority").value
-            const startdate = document.getElementById("start-date").value
-            const endate = document.getElementById("end-date").value
+            const taskname = document.getElementById("taskname").value.trim();
+            const priority = document.getElementById("priority").value
+            const startdate = document.getElementById("startdate").value
+            const endate = document.getElementById("endate").value
         
 
         if (!taskname ||!startdate || !endate ){
@@ -93,7 +152,7 @@
             return
         }
 
-        const tablebody = document.getElementById("Table-body")
+        const tablebody = document.getElementById("Tasktablebody")
         const row = document.createElement('tr');
 
         row.innerHTML = `
@@ -121,10 +180,10 @@
             `;
                 tablebody.appendChild(row);
 
-                document.getElementById('task-1').value = '';
-                document.getElementById('Priority').value = 'Medium';
-                document.getElementById('start-date').value = '';
-                document.getElementById('end-date').value = '';
+                document.getElementById('taskname').value = '';
+                document.getElementById('priority').value = 'Medium';
+                document.getElementById('startdate').value = '';
+                document.getElementById('endate').value = '';
 
             }
 
